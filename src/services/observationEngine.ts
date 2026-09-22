@@ -43,18 +43,18 @@ export class PrototypeObservationEngine implements ObservationEngine {
     const voiceNoteSummary = context.voiceNote ? ` User noted: "${context.voiceNote}".` : '';
 
     if (trend === 'Baseline' || historyCount === 0) {
-      return `Baseline recovery check recorded with pain score ${context.pain}/10 and observable visual signal intensity ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} Perform a second check over time to establish longitudinal tracking.`;
+      return `Baseline recovery check recorded with pain score ${context.pain}/10 and an observable visual signal of ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} Perform a second check over time to establish longitudinal tracking.`;
     }
 
     if (trend === 'Needs attention') {
-      return `Reported pain score is ${context.pain}/10 with observable visual signal intensity ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} These combined observations indicate noticeable change that benefits from careful tracking.`;
+      return `Reported pain score is ${context.pain}/10 with an observable visual signal of ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} These combined observations indicate noticeable change that benefits from careful tracking.`;
     }
 
     if (trend === 'Improving') {
-      return `Reported pain score is low (${context.pain}/10) with steady visual features (${visual.redDominance}% visual signal). ${symptomText}${voiceNoteSummary} Overall observations reflect positive progression over time.`;
+      return `Reported pain score is low (${context.pain}/10) with an observable visual signal of ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} Overall observations reflect positive progression over time.`;
     }
 
-    return `Reported pain score is moderate (${context.pain}/10) with consistent visual features (${visual.redDominance}% visual signal). ${symptomText}${voiceNoteSummary} Observations remain stable compared to baseline.`;
+    return `Reported pain score is moderate (${context.pain}/10) with an observable visual signal of ${visual.redDominance}%. ${symptomText}${voiceNoteSummary} Observations remain stable compared to baseline.`;
   }
 
   private generateSafetyPrompt(trend: Trend): string {

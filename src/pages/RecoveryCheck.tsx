@@ -20,8 +20,8 @@ export const RecoveryCheckPage: React.FC<RecoveryCheckProps> = ({
   const [step, setStep] = useState<number>(1);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [symptomContext, setSymptomContext] = useState<SymptomContext>({
-    pain: 3,
-    symptoms: ['No new symptoms'],
+    pain: 0,
+    symptoms: [],
     voiceNote: '',
   });
   const [observationResult, setObservationResult] = useState<ObservationResult | null>(null);

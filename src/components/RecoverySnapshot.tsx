@@ -1,6 +1,6 @@
 import React from 'react';
 import { ObservationResult, SymptomContext } from '@/types';
-import { TrendingUp, TrendingDown, Minus, Activity, Eye, ShieldAlert, Sparkles, Save, ArrowLeft } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Activity, Eye, ShieldAlert, Sparkles, Save, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { SafetyNotice } from './SafetyNotice';
 import { motion } from 'framer-motion';
 
@@ -57,6 +57,13 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
             <span>Needs attention</span>
           </div>
         );
+      case 'Baseline':
+        return (
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 font-bold text-xs border border-indigo-200 dark:border-indigo-800">
+            <ShieldCheck className="w-4 h-4 text-indigo-500" />
+            <span>Baseline</span>
+          </div>
+        );
       default:
         return (
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 font-bold text-xs border border-brand-200 dark:border-brand-800">
@@ -94,7 +101,7 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-500 font-medium">Observable Visual Signal:</span>
               <span className="font-extrabold text-brand-600 dark:text-brand-400">
-                {visualSignal.redDominance}% Red Area
+                {visualSignal.redDominance}%
               </span>
             </div>
             <div className="flex items-center justify-between text-xs">
@@ -119,14 +126,20 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
           Reported Symptoms
         </span>
         <div className="flex flex-wrap gap-1.5 pt-1">
-          {context.symptoms.map((symptom) => (
-            <span
-              key={symptom}
-              className="px-3 py-1 rounded-xl bg-surface-soft dark:bg-surface-dark border border-surface-border dark:border-surface-darkBorder text-xs font-semibold text-slate-700 dark:text-slate-300"
-            >
-              {symptom}
+          {context.symptoms.length > 0 ? (
+            context.symptoms.map((symptom) => (
+              <span
+                key={symptom}
+                className="px-3 py-1 rounded-xl bg-surface-soft dark:bg-surface-dark border border-surface-border dark:border-surface-darkBorder text-xs font-semibold text-slate-700 dark:text-slate-300"
+              >
+                {symptom}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs font-medium text-slate-400 italic">
+              No symptoms selected
             </span>
-          ))}
+          )}
         </div>
       </div>
 

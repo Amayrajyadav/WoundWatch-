@@ -101,7 +101,9 @@ export const Home: React.FC<HomeProps> = ({
 
         {/* Card 3: Observable Visual Signal */}
         <div className="bg-white dark:bg-surface-darkSoft p-4 rounded-2xl border border-surface-border dark:border-surface-darkBorder shadow-sm space-y-1">
-          <span className="text-xs font-semibold text-slate-400 block">Visual Signal</span>
+          <span className="text-xs font-semibold text-slate-400 block truncate" title="Observable Visual Signal">
+            Visual Signal
+          </span>
           <p className="text-2xl font-black text-slate-900 dark:text-white">
             {latestCheck ? `${latestCheck.visualSignal.redDominance}%` : '—'}
           </p>
