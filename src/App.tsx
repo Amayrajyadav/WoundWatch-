@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { NavigationTab, RecoveryCheck } from '@/types';
 import { getSavedChecks } from '@/services/storage';
 import { Navigation } from '@/components/Navigation';
-import { Home } from '@/pages/Home';
-import { RecoveryCheckPage } from '@/pages/RecoveryCheck';
+import { DashboardPage } from '@/pages/DashboardPage';
+import { RecoveryScanner } from '@/pages/RecoveryScanner';
 import { TimelinePage } from '@/pages/TimelinePage';
 import { CareGuidePage } from '@/pages/CareGuidePage';
 import { ReportPage } from '@/pages/ReportPage';
-import { DEMO_CHECKS } from '@/data/demoCase';
+import { generateDemoScenario, DEMO_CHECKS } from '@/data/demoCase';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<NavigationTab>('overview');
+  const [activeTab, setActiveTab] = useState<NavigationTab>('dashboard');
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
@@ -47,13 +47,20 @@ export const App: React.FC = () => {
     // Completing a real check always exits demo mode and reloads real data
     setIsDemoMode(false);
     setChecks(getSavedChecks());
-    setActiveTab('timeline');
+    setActiveTab('dashboard');
   };
 
   const loadDemo = () => {
     setIsDemoMode(true);
     setChecks(DEMO_CHECKS);
-    setActiveTab('timeline');
+    setActiveTab('dashboard');
+  };
+
+  const loadDemoScenario = async (scenario: 'improving' | 'change_point' | 'low_confidence' | 'seek_care') => {
+    setIsDemoMode(true);
+    const generatedChecks = await generateDemoScenario(scenario);
+    setChecks(generatedChecks);
+    setActiveTab('dashboard');
   };
 
   const clearDemo = () => {
@@ -84,21 +91,30 @@ export const App: React.FC = () => {
       />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
-        {activeTab === 'overview' && (
-          <Home
+        {activeTab === 'dashboard' && (
+          <DashboardPage
             checks={checks}
             isDemoMode={isDemoMode}
-            onStartCheck={() => setActiveTab('check')}
-            onLoadDemo={loadDemo}
-            onNavigateTimeline={() => setActiveTab('timeline')}
-            onNavigateCareGuide={() => setActiveTab('careguide')}
+            onNewCheck={() => setActiveTab('check')}
+            onOpenReport={() => setActiveTab('report')}
+            onLoadDemo={loadDemoScenario}
+          />
+        )}
+        
+        {activeTab === 'overview' && (
+          <DashboardPage
+            checks={checks}
+            isDemoMode={isDemoMode}
+            onNewCheck={() => setActiveTab('check')}
+            onOpenReport={() => setActiveTab('report')}
+            onLoadDemo={loadDemoScenario}
           />
         )}
 
         {activeTab === 'check' && (
-          <RecoveryCheckPage
+          <RecoveryScanner
             onComplete={handleCompleteCheck}
-            onCancel={() => setActiveTab('overview')}
+            onCancel={() => setActiveTab('dashboard')}
           />
         )}
 

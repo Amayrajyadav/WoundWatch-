@@ -101,6 +101,14 @@ export async function extractImageFeatures(imageSrc: string, region: WoundRegion
       // Simple heuristic for image quality based on brightness and sharpness
       const isLowQuality = img.width < 200 || avgBrightness < 30 || avgBrightness > 235 || sharpness < 5;
 
+      // Phase 3.0: Calculate approximate area
+      let observableArea = 0;
+      if (region) {
+        observableArea = Math.round(region.width * region.height * img.width * img.height);
+      } else {
+        observableArea = img.width * img.height;
+      }
+
       resolve({
         redDominance: Math.max(12, redDominance),
         avgBrightness,
@@ -110,6 +118,7 @@ export async function extractImageFeatures(imageSrc: string, region: WoundRegion
         regionRedDominance: Math.max(12, regionRedDominance),
         regionBrightness,
         imageQuality: isLowQuality ? 'low' : 'good',
+        observableArea,
       });
     };
 
@@ -128,5 +137,6 @@ function getFallbackSignal(region: WoundRegion | null): ImageFeatures {
     regionRedDominance: 25,
     regionBrightness: 110,
     imageQuality: 'good',
+    observableArea: 1000,
   };
 }

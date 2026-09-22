@@ -158,7 +158,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({
             onClick={onNextStep}
             className="flex-1 py-3 px-4 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors"
           >
-            Analyze Quality
+            Start Scan
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
