@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface DataPoint {
   day: number;
@@ -67,14 +68,33 @@ export function TrajectoryChart({ data, width = 600, height = 250 }: Props) {
         })}
 
         {/* Area */}
-        <path d={areaD} fill="url(#trajectory-gradient)" />
+        <motion.path 
+          d={areaD} 
+          fill="url(#trajectory-gradient)" 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+        />
 
         {/* Line */}
-        <path d={pathD} fill="none" stroke="#38bdf8" strokeWidth="3" />
+        <motion.path 
+          d={pathD} 
+          fill="none" 
+          stroke="#38bdf8" 
+          strokeWidth="3" 
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
 
         {/* Points & Labels */}
         {points.map((p, i) => (
-          <g key={i}>
+          <motion.g 
+            key={i}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1 + (i * 0.1), duration: 0.3 }}
+          >
             <circle cx={p.x} cy={p.y} r="5" fill="#0f172a" stroke="#38bdf8" strokeWidth="2" />
             
             {/* Label below point */}
@@ -86,7 +106,7 @@ export function TrajectoryChart({ data, width = 600, height = 250 }: Props) {
             <text x={p.x} y={p.y - 15} textAnchor="middle" fill="#f8fafc" fontSize="12" fontWeight="600">
               {Math.round(p.value)}
             </text>
-          </g>
+          </motion.g>
         ))}
       </svg>
     </div>

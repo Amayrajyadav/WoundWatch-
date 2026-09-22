@@ -12,28 +12,12 @@ import { generateDemoScenario, DEMO_CHECKS } from '@/data/demoCase';
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavigationTab>('dashboard');
   const [isDemoMode, setIsDemoMode] = useState(false);
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('woundwatch_theme');
-      if (savedTheme) return savedTheme === 'dark';
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return false;
-  });
-
   const [checks, setChecks] = useState<RecoveryCheck[]>([]);
 
+  // Always dark — the new design is dark-only
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('woundwatch_theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('woundwatch_theme', 'light');
-    }
-  }, [darkMode]);
+    document.documentElement.classList.add('dark');
+  }, []);
 
   useEffect(() => {
     setChecks(getSavedChecks());
@@ -44,7 +28,6 @@ export const App: React.FC = () => {
   };
 
   const handleCompleteCheck = () => {
-    // Completing a real check always exits demo mode and reloads real data
     setIsDemoMode(false);
     setChecks(getSavedChecks());
     setActiveTab('dashboard');
@@ -69,16 +52,19 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface-soft dark:bg-surface-dark text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col font-sans">
       {/* Demo mode banner */}
       {isDemoMode && (
-        <div className="bg-accent-400 text-brand-900 text-xs font-bold flex items-center justify-between px-4 py-2">
-          <span>▶ Demo Mode — synthetic example data. Not real clinical observations.</span>
+        <div className="bg-blue-600/20 border-b border-blue-500/30 text-blue-300 text-xs font-bold flex items-center justify-between px-4 py-2">
+          <span className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse inline-block" />
+            Synthetic demo data — not real clinical observations
+          </span>
           <button
             onClick={clearDemo}
-            className="ml-4 underline underline-offset-2 hover:no-underline transition-all"
+            className="text-blue-300 hover:text-white underline underline-offset-2 transition-colors"
           >
-            Clear demo
+            Exit demo
           </button>
         </div>
       )}
@@ -86,22 +72,12 @@ export const App: React.FC = () => {
       <Navigation
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab)}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode(!darkMode)}
+        darkMode={true}
+        onToggleDarkMode={() => {}} // no-op — dark only
       />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
-        {activeTab === 'dashboard' && (
-          <DashboardPage
-            checks={checks}
-            isDemoMode={isDemoMode}
-            onNewCheck={() => setActiveTab('check')}
-            onOpenReport={() => setActiveTab('report')}
-            onLoadDemo={loadDemoScenario}
-          />
-        )}
-        
-        {activeTab === 'overview' && (
+      <main className="flex-1 w-full">
+        {(activeTab === 'dashboard' || activeTab === 'overview') && (
           <DashboardPage
             checks={checks}
             isDemoMode={isDemoMode}

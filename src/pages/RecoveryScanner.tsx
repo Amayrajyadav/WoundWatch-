@@ -4,7 +4,7 @@ import { SymptomSelector } from '@/components/SymptomSelector';
 import { observationEngine } from '@/services/observationEngine';
 import { saveCheck, getSavedChecks } from '@/services/storage';
 import { RecoveryCheck, SymptomContext, ObservationResult } from '@/types';
-import { ArrowLeft, Loader2, CheckCircle2, ScanFace, Activity, ShieldAlert } from 'lucide-react';
+import { X, CheckCircle2, ScanFace, Activity, ShieldAlert, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -21,12 +21,11 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
   // Scanning animation steps
   const [scanProgress, setScanProgress] = useState(0);
   const scanTasks = [
-    'IMAGE QUALITY CHECK',
-    'WOUND REGION ISOLATION',
-    'VISUAL FEATURE EXTRACTION',
-    'TEMPORAL ALIGNMENT',
-    'BASELINE COMPARISON',
-    'MULTIVARIATE ANOMALY DETECTION'
+    'Checking image quality',
+    'Mapping selected region',
+    'Extracting visual signals',
+    'Comparing trajectory',
+    'Checking recent changes'
   ];
 
   const [symptomContext, setSymptomContext] = useState<SymptomContext>({
@@ -53,13 +52,11 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
         clearInterval(interval);
         setTimeout(() => setStage('symptoms'), 600);
       }
-    }, 400); // Faster iteration for the checklist
+    }, 500); // 500ms per task for deliberate pacing
   };
 
   const handleAnalyze = async () => {
     if (!imageSrc) return;
-    
-    // Fake a quick loader for the final crunch
     const existingChecks = getSavedChecks();
     const analysis = await observationEngine.analyze(imageSrc, symptomContext, existingChecks);
     setResult(analysis);
@@ -90,19 +87,16 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
   };
 
   return (
-    <div className="h-full flex flex-col max-w-2xl mx-auto pb-24">
+    <div className="h-full flex flex-col max-w-2xl mx-auto pb-24 bg-slate-950 text-slate-200">
       {/* Header */}
-      <header className="p-4 border-b border-slate-800 flex justify-between items-center">
-        <button onClick={onCancel} className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-semibold">Cancel Scan</span>
+      <header className="p-4 flex justify-between items-center relative z-20">
+        <div className="flex items-center gap-2 text-slate-400 text-sm font-bold tracking-widest">
+          <ScanFace className="w-5 h-5" />
+          RECOVERY SCAN
+        </div>
+        <button onClick={onCancel} className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors">
+          <X className="w-5 h-5" />
         </button>
-        {stage !== 'result' && (
-          <div className="flex items-center gap-2 text-blue-400">
-            <ScanFace className="w-5 h-5" />
-            <span className="font-bold tracking-wider text-sm">RECOVERY SCANNER</span>
-          </div>
-        )}
       </header>
 
       <main className="flex-1 flex flex-col relative">
@@ -113,7 +107,7 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
             <motion.div 
               key="capture"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 p-4"
+              className="flex-1 p-4 flex flex-col"
             >
               <CameraCapture 
                 capturedImage={imageSrc}
@@ -131,38 +125,34 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex-1 flex flex-col items-center justify-center p-6"
             >
-              <div className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl font-mono text-sm">
-                <div className="flex items-center gap-2 text-slate-400 mb-6 pb-4 border-b border-slate-800">
-                  <Activity className="w-4 h-4" />
-                  <span>INTELLIGENCE ENGINE RUNNING</span>
-                </div>
-                
-                <div className="space-y-4">
-                  {scanTasks.map((task, index) => {
-                    const isComplete = scanProgress > index;
-                    const isActive = scanProgress === index;
-                    const isPending = scanProgress < index;
-                    
-                    return (
-                      <div key={index} className="flex justify-between items-center">
-                        <span className={`${isComplete ? 'text-slate-300' : isActive ? 'text-blue-400 font-bold' : 'text-slate-600'}`}>
-                          {task}
-                        </span>
-                        {isComplete && <span className="text-emerald-400">✓</span>}
-                        {isActive && <span className="text-blue-400 animate-pulse">...</span>}
-                        {isPending && <span className="text-slate-700">WAIT</span>}
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="w-full max-w-sm space-y-6 text-sm font-medium">
+                {scanTasks.map((task, index) => {
+                  const isComplete = scanProgress > index;
+                  const isActive = scanProgress === index;
+                  
+                  return (
+                    <motion.div 
+                      key={index} 
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: isComplete || isActive ? 1 : 0.2, x: 0 }}
+                      className="flex justify-between items-center"
+                    >
+                      <span className={`${isComplete ? 'text-slate-300' : isActive ? 'text-blue-400 font-bold' : 'text-slate-700'}`}>
+                        {task}
+                      </span>
+                      {isComplete && <Check className="w-5 h-5 text-emerald-400" />}
+                      {isActive && <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />}
+                    </motion.div>
+                  );
+                })}
                 
                 {scanProgress >= scanTasks.length && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-8 pt-4 border-t border-slate-800 text-emerald-400 font-bold text-center"
+                    className="mt-12 pt-6 border-t border-slate-800 text-center"
                   >
-                    ANALYSIS COMPLETE
+                    <h2 className="text-2xl font-extrabold text-white">Scan complete</h2>
                   </motion.div>
                 )}
               </div>
@@ -176,18 +166,18 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
               className="flex-1 p-4 flex flex-col"
             >
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-white">How does it feel today?</h2>
-                  <p className="text-slate-400">Complete the intelligence profile.</p>
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 lg:p-8 flex-1 flex flex-col shadow-2xl">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-extrabold text-white mb-2">How does it feel?</h2>
+                  <p className="text-slate-400">Provide context for the latest scan.</p>
                 </div>
                 
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto hide-scrollbar">
                   <SymptomSelector 
                     context={symptomContext}
                     onChange={setSymptomContext}
                     onNextStep={handleAnalyze}
-                    onPrevStep={() => {}} // Disabled to keep flow forward
+                    onPrevStep={() => {}} // one-way flow
                   />
                 </div>
               </div>
@@ -202,37 +192,26 @@ export function RecoveryScanner({ onComplete, onCancel }: Props) {
               className="flex-1 p-4 flex flex-col items-center justify-center text-center"
             >
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl relative overflow-hidden">
-                {/* Background glow based on safety */}
-                <div className={`absolute -inset-10 blur-3xl opacity-20 ${
-                  result.safetyLevel === 'seek-care' ? 'bg-red-500' : 
-                  result.safetyLevel === 'monitor' ? 'bg-amber-500' : 'bg-emerald-500'
-                }`} />
-
                 <div className="relative z-10">
                   {result.safetyLevel === 'normal' ? (
-                    <CheckCircle2 className="w-20 h-20 text-emerald-400 mx-auto mb-4" />
+                    <CheckCircle2 className="w-20 h-20 text-emerald-400 mx-auto mb-6" />
                   ) : result.safetyLevel === 'monitor' ? (
-                    <Activity className="w-20 h-20 text-amber-400 mx-auto mb-4" />
+                    <Activity className="w-20 h-20 text-amber-400 mx-auto mb-6" />
                   ) : (
-                    <ShieldAlert className="w-20 h-20 text-red-400 mx-auto mb-4" />
+                    <ShieldAlert className="w-20 h-20 text-red-400 mx-auto mb-6" />
                   )}
 
-                  <h2 className="text-3xl font-extrabold text-white mb-2">Scan Complete</h2>
+                  <h2 className="text-3xl font-extrabold text-white mb-2">Analysis Complete</h2>
                   
-                  <div className="bg-slate-950 rounded-xl p-4 my-6 text-left border border-slate-800">
-                    <p className="text-sm text-slate-300 font-medium mb-2">{result.explanation}</p>
-                    {result.anomalies && result.anomalies.length > 0 && (
-                      <ul className="text-xs text-amber-400 list-disc list-inside mt-3 space-y-1">
-                        {result.anomalies.map((a, i) => <li key={i}>{a}</li>)}
-                      </ul>
-                    )}
+                  <div className="bg-slate-950 rounded-2xl p-5 my-8 text-left border border-slate-800">
+                    <p className="text-sm text-slate-300 font-medium leading-relaxed">{result.explanation}</p>
                   </div>
 
                   <button
                     onClick={handleSave}
-                    className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-900/50 transition-transform active:scale-95"
+                    className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-900/30 transition-transform active:scale-[0.98]"
                   >
-                    Save to Dashboard
+                    Save to Trajectory
                   </button>
                 </div>
               </div>
