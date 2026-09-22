@@ -49,13 +49,13 @@ Day 1      Day 2      Day 3     Day 4     Today
 
 <br/>
 
-[**▶ Explore Live Demo**](#-live-demo) · [**📖 How It Works**](#-how-it-works) · [**⚡ Quick Start**](#-quick-start) · [**🧠 The Intelligence Engine**](#-the-intelligence-engine)
+[**Explore Live Demo**](#-live-demo) · [**How It Works**](#-how-it-works) · [**Quick Start**](#-quick-start) · [**The Intelligence Engine**](#-the-intelligence-engine)
 
 </div>
 
 ---
 
-## 🔥 What Makes This Different
+## What Makes This Different
 
 Most health apps store data. **WoundWatch understands it.**
 
@@ -74,9 +74,9 @@ Most health apps store data. **WoundWatch understands it.**
 
 ---
 
-## ✨ Feature Showcase
+## Feature Showcase
 
-### 🌀 Recovery Trajectory
+### Recovery Trajectory
 ```
                          RECOVERY TRAJECTORY              n=5
 
@@ -97,7 +97,7 @@ A **live-animated SVG** trajectory that draws itself on page load, showing your 
 
 ---
 
-### 🕸️ Recovery Fingerprint
+### Recovery Fingerprint
 ```
                         PAIN ●
                            /|\
@@ -116,7 +116,7 @@ A **4-axis radar chart** showing your current observation vs. your previous base
 
 ---
 
-### 🔬 What WoundWatch Sees
+### What WoundWatch Sees
 ```
   ┌─────────────────────────────────────┐
   │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
@@ -136,7 +136,7 @@ A **canvas-based computer vision overlay** that extracts and maps the wound's co
 
 ---
 
-### ⚠️ Intelligent Anomaly Detection
+### Intelligent Anomaly Detection
 ```
   MULTIVARIATE ANALYSIS — Day 4
 
@@ -157,7 +157,7 @@ Not just "something looks different." WoundWatch detects **where in the multivar
 
 ---
 
-### 🔭 Predictive Observation Range
+### Predictive Observation Range
 ```
   NEXT RECOVERY CHECK — Expected
 
@@ -177,7 +177,7 @@ Not just "something looks different." WoundWatch detects **where in the multivar
 
 ---
 
-## 🧠 The Intelligence Engine
+## The Intelligence Engine
 
 The `PrototypeObservationEngine` runs **entirely in the browser**. Here's what it actually does:
 
@@ -239,7 +239,7 @@ Confidence = weighted average of:
 
 ---
 
-## 🎬 Live Demo
+## Live Demo
 
 > **No setup required. No account. No uploads.**
 
@@ -256,7 +256,7 @@ Four pre-built scenarios:
 
 ---
 
-## 📱 The Scanner Experience
+## The Scanner Experience
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -290,7 +290,7 @@ No laser animations. No fake AI progress bars. A **real technical checklist** th
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ```bash
 # Clone
@@ -308,7 +308,7 @@ Open `http://localhost:5173` — no API keys, no `.env`, no backend.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 WoundWatch/
@@ -362,7 +362,7 @@ PrototypeObservationEngine
 
 ---
 
-## 🔒 Privacy Architecture
+## Privacy Architecture
 
 ```
         YOUR DEVICE
@@ -396,7 +396,7 @@ Not because we delete it after — because we never receive it.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology | Why |
 |---|---|---|
@@ -410,7 +410,7 @@ Not because we delete it after — because we never receive it.
 
 ---
 
-## 📊 The Four Intelligence Outputs
+## The Four Intelligence Outputs
 
 Every scan produces four independent outputs from the engine:
 
@@ -435,7 +435,7 @@ Every scan produces four independent outputs from the engine:
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [x] Canvas-based visual signal extraction
 - [x] Multivariate anomaly detection (4D Euclidean)
@@ -453,24 +453,9 @@ Every scan produces four independent outputs from the engine:
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 WoundWatch is a **personal observation and tracking tool**. It is **not a medical device**, does not provide medical advice, and should not replace professional medical assessment. All outputs are observational aids derived from personal data — they are **not diagnoses**.
 
 ---
 
-<div align="center">
-
-### Built for hackers. Designed for humans. Private by default.
-
-```
-● SYSTEM READY
-```
-
-**[github.com/Amayrajyadav/WoundWatch-](https://github.com/Amayrajyadav/WoundWatch-)**
-
-<br/>
-
-*Made with obsessive attention to detail.*
-
-</div>
