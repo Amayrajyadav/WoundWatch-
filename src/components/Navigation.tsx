@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationTab } from '@/types';
-import { Sun, Moon } from 'lucide-react';
+import { ScanFace } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: NavigationTab;
@@ -12,50 +12,61 @@ interface NavigationProps {
 export const Navigation: React.FC<NavigationProps> = ({
   activeTab,
   onTabChange,
-  darkMode,
-  onToggleDarkMode,
 }) => {
-  return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800 transition-colors">
-      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-        
-        {/* LOGO */}
-        <div 
-          className="text-white font-extrabold tracking-widest cursor-pointer select-none text-sm"
-          onClick={() => onTabChange('dashboard')}
-        >
-          WOUNDWATCH
-        </div>
+  const tabs: { id: NavigationTab; label: string }[] = [
+    { id: 'dashboard', label: 'Overview' },
+    { id: 'check',     label: 'Scan'     },
+    { id: 'timeline',  label: 'Timeline' },
+    { id: 'report',    label: 'Report'   },
+  ];
 
-        {/* NAVIGATION LINKS */}
-        <nav className="flex items-center space-x-4 sm:space-x-8 text-xs sm:text-sm font-medium">
-          {['dashboard', 'check', 'timeline', 'report'].map(tab => {
-            const label = tab === 'check' ? 'Scan' : tab === 'dashboard' ? 'Overview' : tab.charAt(0).toUpperCase() + tab.slice(1);
-            return (
-              <button
-                key={tab}
-                onClick={() => onTabChange(tab as NavigationTab)}
-                className={`transition-colors ${activeTab === tab || (activeTab === 'overview' && tab === 'dashboard') ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-              >
-                {label}
-              </button>
-            );
-          })}
+  const isActive = (id: NavigationTab) =>
+    activeTab === id || (id === 'dashboard' && activeTab === 'overview');
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-white/5"
+      style={{ background: 'rgba(2,6,23,0.85)', backdropFilter: 'blur(20px)' }}>
+      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between" style={{ height: 72 }}>
+
+        {/* ── LOGO ── */}
+        <button
+          onClick={() => onTabChange('dashboard')}
+          className="flex items-center gap-3 group"
+        >
+          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/40 group-hover:scale-105 transition-transform">
+            <ScanFace className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-white font-extrabold tracking-tight text-lg leading-none">
+            Wound<span className="text-blue-400">Watch</span>
+          </span>
+        </button>
+
+        {/* ── NAV LINKS ── */}
+        <nav className="flex items-center gap-1 bg-white/5 border border-white/8 rounded-2xl p-1.5">
+          {tabs.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => onTabChange(id)}
+              className={`relative px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                isActive(id)
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/8'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </nav>
 
-        {/* ON DEVICE STATUS & DARK MODE */}
-        <div className="hidden sm:flex items-center space-x-4">
-          <div className="flex items-center space-x-1.5 text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full border border-emerald-400/20">
-            <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            <span>On-device</span>
-          </div>
-          <button
-            onClick={onToggleDarkMode}
-            className="text-slate-500 hover:text-slate-300 transition-colors"
-          >
-            {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
+        {/* ── STATUS PILL ── */}
+        <div className="flex items-center gap-2.5 bg-emerald-500/10 border border-emerald-500/25 rounded-2xl px-4 py-2">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="text-emerald-400 text-sm font-semibold tracking-tight">On-device</span>
         </div>
+
       </div>
     </header>
   );
