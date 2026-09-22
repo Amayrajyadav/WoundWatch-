@@ -28,27 +28,28 @@ export const ReportPage: React.FC<ReportPageProps> = ({ checks, onBack }) => {
   const trackingDays = Math.max(1, Math.ceil((new Date(newestCheck.timestamp).getTime() - new Date(oldestCheck.timestamp).getTime()) / (1000 * 3600 * 24)));
 
   return (
-    <div className="max-w-3xl mx-auto pb-24 md:pb-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-24 md:pb-8">
       {/* Non-printable header controls */}
-      <div className="flex items-center justify-between mb-8 print:hidden">
+      <div className="flex items-center justify-between mb-6 sm:mb-8 print:hidden gap-3">
         <button
           onClick={onBack}
-          className="flex items-center space-x-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+          className="flex items-center space-x-2 text-slate-500 hover:text-white transition-colors"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-semibold">Back to Timeline</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="font-semibold text-sm sm:text-base">Back</span>
         </button>
         <button
           onClick={handlePrint}
-          className="flex items-center space-x-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-transform"
+          className="flex items-center space-x-2 bg-white/8 border border-white/10 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-bold hover:bg-white/12 transition-all text-sm"
         >
           <Printer className="w-4 h-4" />
-          <span>Print / Save as PDF</span>
+          <span className="hidden sm:inline">Print / Save as PDF</span>
+          <span className="sm:hidden">Export PDF</span>
         </button>
       </div>
 
       {/* Printable Report Content */}
-      <div className="bg-white dark:bg-surface-darkSoft p-8 md:p-12 rounded-3xl border border-surface-border dark:border-surface-darkBorder shadow-sm print:shadow-none print:border-none print:p-0 space-y-10">
+      <div className="bg-slate-900/60 border border-white/8 p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl shadow-sm print:shadow-none print:border-none print:p-0 space-y-8 sm:space-y-10">
         
         {/* Header */}
         <div className="flex items-start justify-between border-b border-slate-200 dark:border-slate-800 pb-8">

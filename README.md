@@ -22,6 +22,7 @@
 
 <br/>
 
+[![Live Demo](https://img.shields.io/badge/LIVE%20DEMO-woundwatch--pied.vercel.app-3b82f6?style=for-the-badge&logo=vercel&logoColor=white)](https://woundwatch-pied.vercel.app)
 [![100% On-Device](https://img.shields.io/badge/100%25%20On--Device-00C853?style=for-the-badge&logo=lock&logoColor=white)]()
 [![No Cloud Upload](https://img.shields.io/badge/No%20Cloud%20Upload-FF1744?style=for-the-badge&logo=cloud-off&logoColor=white)]()
 [![Works Offline](https://img.shields.io/badge/Works%20Offline-1976D2?style=for-the-badge&logo=wifi-off&logoColor=white)]()
@@ -39,7 +40,7 @@
 
 <br/>
 
-[**Explore Live Demo**](#live-demo) · [**How It Works**](#the-intelligence-engine) · [**Quick Start**](#quick-start) · [**Architecture**](#architecture)
+**[woundwatch-pied.vercel.app](https://woundwatch-pied.vercel.app)** · [How It Works](#the-intelligence-engine) · [Quick Start](#quick-start) · [Architecture](#architecture)
 
 </div>
 

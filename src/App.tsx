@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col font-sans overflow-x-hidden">
       {/* Demo mode banner */}
       {isDemoMode && (
         <div className="bg-blue-600/20 border-b border-blue-500/30 text-blue-300 text-xs font-bold flex items-center justify-between px-4 py-2">
