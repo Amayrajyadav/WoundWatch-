@@ -1,0 +1,131 @@
+<svg viewBox="0 0 900 160" xmlns="http://www.w3.org/2000/svg" width="900" height="160">
+  <defs>
+    <style>
+      .mono { font-family: monospace; font-size: 11px; fill: #475569; }
+      .mono-b { font-family: monospace; font-size: 11px; fill: #94a3b8; font-weight: bold; }
+      .check { font-family: monospace; font-size: 13px; }
+      .title { font-family: monospace; font-size: 11px; fill: #334155; letter-spacing: 0.15em; }
+      .active-text { font-family: monospace; font-size: 11px; fill: #60a5fa; font-weight: bold; }
+      .done-text { font-family: monospace; font-size: 11px; fill: #94a3b8; }
+      .complete-text { font-family: monospace; font-size: 12px; fill: #10b981; font-weight: bold; letter-spacing: 0.08em; }
+
+      /* Row reveal */
+      .row { opacity: 0; }
+      .r1 { animation: row-in 0.3s ease 0.5s forwards; }
+      .r2 { animation: row-in 0.3s ease 1.2s forwards; }
+      .r3 { animation: row-in 0.3s ease 1.9s forwards; }
+      .r4 { animation: row-in 0.3s ease 2.6s forwards; }
+      .r5 { animation: row-in 0.3s ease 3.3s forwards; }
+      @keyframes row-in { to { opacity: 1; } }
+
+      /* Checkmarks appear after row */
+      .ck { opacity: 0; }
+      .ck1 { animation: ck-pop 0.25s ease 0.9s forwards; }
+      .ck2 { animation: ck-pop 0.25s ease 1.6s forwards; }
+      .ck3 { animation: ck-pop 0.25s ease 2.3s forwards; }
+      .ck4 { animation: ck-pop 0.25s ease 3.0s forwards; }
+      .ck5 { animation: ck-pop 0.25s ease 3.7s forwards; }
+      @keyframes ck-pop {
+        0%   { opacity: 0; transform: scale(0.3); }
+        70%  { opacity: 1; transform: scale(1.2); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      /* Active dot pulse */
+      .pulse-dot { opacity: 0; }
+      .pd1 { animation: pulse-show 0.7s ease 0.5s, pulse-hide 0.1s ease 0.9s forwards; }
+      .pd2 { animation: pulse-show 0.7s ease 1.2s, pulse-hide 0.1s ease 1.6s forwards; }
+      .pd3 { animation: pulse-show 0.7s ease 1.9s, pulse-hide 0.1s ease 2.3s forwards; }
+      .pd4 { animation: pulse-show 0.7s ease 2.6s, pulse-hide 0.1s ease 3.0s forwards; }
+      .pd5 { animation: pulse-show 0.7s ease 3.3s, pulse-hide 0.1s ease 3.7s forwards; }
+      @keyframes pulse-show { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+      @keyframes pulse-hide { to { opacity: 0; } }
+
+      /* Final "Analysis complete" */
+      .complete { opacity: 0; animation: fadein 0.6s ease 4.1s forwards; }
+      @keyframes fadein { to { opacity: 1; } }
+
+      /* Separator line animation */
+      .sep { stroke-dasharray: 800; stroke-dashoffset: 800; animation: draw-sep 0.4s ease 4.0s forwards; }
+      @keyframes draw-sep { to { stroke-dashoffset: 0; } }
+
+      /* Cursor blink */
+      .cursor { animation: blink 1s step-end 0.5s 8; }
+      @keyframes blink { 50% { opacity: 0; } }
+    </style>
+    <filter id="glow-sm">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="160" rx="16" fill="#020617"/>
+  <rect x="1" y="1" width="898" height="158" rx="15" fill="none" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Terminal top bar -->
+  <rect width="900" height="36" rx="16" fill="#0f172a"/>
+  <rect y="16" width="900" height="20" fill="#0f172a"/>
+  <circle cx="24" cy="18" r="5" fill="#ef4444" opacity="0.7"/>
+  <circle cx="40" cy="18" r="5" fill="#f59e0b" opacity="0.7"/>
+  <circle cx="56" cy="18" r="5" fill="#22c55e" opacity="0.7"/>
+  <text x="440" y="22" text-anchor="middle" class="title">ANALYSIS PIPELINE</text>
+
+  <!-- Step rows -->
+  <!-- Row 1 -->
+  <g class="row r1">
+    <text x="80" y="68" class="done-text">IMAGE QUALITY</text>
+    <rect x="280" y="56" width="200" height="3" rx="1.5" fill="#1e293b"/>
+    <rect x="280" y="56" width="200" height="3" rx="1.5" fill="#3b82f6" opacity="0.6"/>
+  </g>
+  <text x="510" y="68" class="check ck ck1" fill="#10b981" filter="url(#glow-sm)">✓</text>
+  <circle cx="70" cy="64" r="3.5" fill="#3b82f6" class="pulse-dot pd1"/>
+
+  <!-- Row 2 -->
+  <g class="row r2">
+    <text x="80" y="88" class="done-text">WOUND REGION</text>
+    <rect x="280" y="76" width="200" height="3" rx="1.5" fill="#1e293b"/>
+    <rect x="280" y="76" width="160" height="3" rx="1.5" fill="#3b82f6" opacity="0.6"/>
+  </g>
+  <text x="510" y="88" class="check ck ck2" fill="#10b981" filter="url(#glow-sm)">✓</text>
+  <circle cx="70" cy="84" r="3.5" fill="#3b82f6" class="pulse-dot pd2"/>
+
+  <!-- Row 3 -->
+  <g class="row r3">
+    <text x="80" y="108" class="done-text">VISUAL FEATURES</text>
+    <rect x="280" y="96" width="200" height="3" rx="1.5" fill="#1e293b"/>
+    <rect x="280" y="96" width="180" height="3" rx="1.5" fill="#6366f1" opacity="0.6"/>
+  </g>
+  <text x="510" y="108" class="check ck ck3" fill="#10b981" filter="url(#glow-sm)">✓</text>
+  <circle cx="70" cy="104" r="3.5" fill="#6366f1" class="pulse-dot pd3"/>
+
+  <!-- Row 4 -->
+  <g class="row r4">
+    <text x="80" y="128" class="done-text">TEMPORAL CHANGE</text>
+    <rect x="280" y="116" width="200" height="3" rx="1.5" fill="#1e293b"/>
+    <rect x="280" y="116" width="190" height="3" rx="1.5" fill="#8b5cf6" opacity="0.6"/>
+  </g>
+  <text x="510" y="128" class="check ck ck4" fill="#10b981" filter="url(#glow-sm)">✓</text>
+  <circle cx="70" cy="124" r="3.5" fill="#8b5cf6" class="pulse-dot pd4"/>
+
+  <!-- Row 5 -->
+  <g class="row r5">
+    <text x="80" y="148" class="done-text">ANOMALY CHECK</text>
+    <rect x="280" y="136" width="200" height="3" rx="1.5" fill="#1e293b"/>
+    <rect x="280" y="136" width="200" height="3" rx="1.5" fill="#10b981" opacity="0.6"/>
+  </g>
+  <text x="510" y="148" class="check ck ck5" fill="#10b981" filter="url(#glow-sm)">✓</text>
+  <circle cx="70" cy="144" r="3.5" fill="#10b981" class="pulse-dot pd5"/>
+
+  <!-- Separator -->
+  <line class="sep" x1="570" y1="50" x2="570" y2="155" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Result block — right side -->
+  <g class="complete">
+    <text x="610" y="75" class="title">RESULT</text>
+    <text x="610" y="98" class="complete-text">ANALYSIS COMPLETE</text>
+    <text x="610" y="116" class="mono" fill="#475569">Confidence:</text>
+    <text x="610" y="130" font-family="monospace" font-size="22" font-weight="bold" fill="#60a5fa">87%</text>
+    <text x="610" y="148" class="mono" fill="#10b981">● IMPROVING</text>
+  </g>
+</svg>

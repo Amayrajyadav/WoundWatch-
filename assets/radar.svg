@@ -1,0 +1,163 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+  <defs>
+    <style>
+      .label { font-family: monospace; font-size: 11px; fill: #64748b; letter-spacing: 0.08em; }
+      .label-b { font-family: monospace; font-size: 11px; fill: #94a3b8; font-weight: bold; }
+      .title { font-family: monospace; font-size: 11px; fill: #334155; letter-spacing: 0.15em; }
+
+      /* Radar current shape draw */
+      .radar-current {
+        stroke-dasharray: 800;
+        stroke-dashoffset: 800;
+        animation: draw-radar 2s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;
+      }
+      .radar-fill {
+        opacity: 0;
+        animation: fill-fade 1s ease 2s forwards;
+      }
+      @keyframes draw-radar { to { stroke-dashoffset: 0; } }
+      @keyframes fill-fade  { to { opacity: 1; } }
+
+      /* Previous baseline */
+      .radar-prev {
+        stroke-dasharray: 800;
+        stroke-dashoffset: 800;
+        animation: draw-radar 2s cubic-bezier(0.4,0,0.2,1) 1.0s forwards;
+      }
+      .radar-prev-fill {
+        opacity: 0;
+        animation: fill-fade 1s ease 2.5s forwards;
+      }
+
+      /* Grid rings appear */
+      .ring { opacity: 0; animation: ring-fade 0.4s ease forwards; }
+      .ring1 { animation-delay: 0.1s; }
+      .ring2 { animation-delay: 0.2s; }
+      .ring3 { animation-delay: 0.3s; }
+      .ring4 { animation-delay: 0.4s; }
+      @keyframes ring-fade { to { opacity: 1; } }
+
+      /* Axis lines */
+      .axis { opacity: 0; animation: ring-fade 0.3s ease 0.3s forwards; }
+
+      /* Dots */
+      .dot-c { opacity: 0; animation: dot-pop 0.3s ease 2.3s forwards; }
+      .dot-p { opacity: 0; animation: dot-pop 0.3s ease 2.8s forwards; }
+      @keyframes dot-pop {
+        0%   { opacity:0; r:0; }
+        70%  { opacity:1; r:7; }
+        100% { opacity:1; r:4; }
+      }
+
+      /* Legend */
+      .legend { opacity: 0; animation: ring-fade 0.5s ease 2.8s forwards; }
+
+      /* Rotating outer ring */
+      .spin-ring {
+        transform-origin: 250px 250px;
+        animation: spin 20s linear infinite;
+        opacity: 0;
+        animation: spin 20s linear infinite, ring-fade 0.5s ease 0.1s forwards;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-sm">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" rx="20" fill="#020617"/>
+  <rect x="1" y="1" width="498" height="498" rx="19" fill="none" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="250" y="30" text-anchor="middle" class="title">RECOVERY FINGERPRINT</text>
+
+  <!-- Outer decorative spinning ring -->
+  <circle class="spin-ring" cx="250" cy="270" r="190"
+    fill="none" stroke="#1e293b" stroke-width="1"
+    stroke-dasharray="4 12"/>
+
+  <!-- Radar grid rings -->
+  <polygon class="ring ring1" points="250,90 380,195 330,350 170,350 120,195"
+    fill="none" stroke="#1e293b" stroke-width="1"/>
+  <polygon class="ring ring2" points="250,130 350,215 310,330 190,330 150,215"
+    fill="none" stroke="#1e293b" stroke-width="1"/>
+  <polygon class="ring ring3" points="250,170 320,235 290,310 210,310 180,235"
+    fill="none" stroke="#1e293b" stroke-width="1"/>
+  <polygon class="ring ring4" points="250,210 290,255 270,290 230,290 210,255"
+    fill="none" stroke="#0f172a" stroke-width="1"/>
+
+  <!-- Axis lines -->
+  <g class="axis" stroke="#1e293b" stroke-width="1">
+    <line x1="250" y1="80" x2="250" y2="460"/>
+    <line x1="80"  y1="270" x2="420" y2="270"/>
+    <line x1="120" y1="130" x2="380" y2="410"/>
+    <line x1="380" y1="130" x2="120" y2="410"/>
+  </g>
+
+  <!-- Previous baseline polygon (Pain=72, Visual=55, Area=65, Symptoms=40) -->
+  <!-- Pain=top, Visual=right, Area=bottom, Symptoms=left (scaled to 190px max) -->
+  <!-- Pain 72% → 250, 90 + (1-0.72)*190 → y=143; actually: center=270,270 -->
+  <!-- Using center 250,270. Axis up: (250, 270-r), right: (250+r*sin72, 270-r*cos72), etc. -->
+  <!-- For simplicity, 5 axes: top(pain), top-right(visual), bottom-right(area), bottom-left(symptoms), top-left: just 4 axes -->
+  <!-- 4-axis: PAIN(top), VISUAL(right), AREA(bottom), SYMPTOMS(left) -->
+  <!-- prev: pain=0.72, visual=0.55, area=0.65, symptoms=0.40, R=170 -->
+  <polygon class="radar-prev-fill"
+    points="250,125 392,270 250,381 148,270"
+    fill="#6366f1" fill-opacity="0.06"/>
+  <polygon class="radar-prev"
+    points="250,125 392,270 250,381 148,270"
+    fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+  <!-- Current polygon (Pain=45, Visual=30, Area=48, Symptoms=20) — better = smaller -->
+  <!-- pain=0.45, visual=0.30, area=0.48, symptoms=0.20, R=170 -->
+  <polygon class="radar-fill"
+    points="250,194 301,270 250,352 199,270"
+    fill="#3b82f6" fill-opacity="0.12"/>
+  <polygon class="radar-current"
+    points="250,194 301,270 250,352 199,270"
+    fill="none" stroke="#3b82f6" stroke-width="2.5"
+    filter="url(#glow)"/>
+
+  <!-- Axis labels -->
+  <text x="250" y="72" text-anchor="middle" class="label-b">PAIN</text>
+  <text x="430" y="275" text-anchor="start" class="label-b">VISUAL</text>
+  <text x="250" y="465" text-anchor="middle" class="label-b">AREA</text>
+  <text x="70" y="275" text-anchor="end" class="label-b">SYMPTOMS</text>
+
+  <!-- Axis value ticks -->
+  <text x="255" y="200" class="label" fill="#475569">45</text>
+  <text x="303" y="265" class="label" fill="#475569">30</text>
+  <text x="255" y="356" class="label" fill="#475569">48</text>
+  <text x="170" y="265" class="label" fill="#475569">20</text>
+
+  <!-- Dots on current polygon -->
+  <circle class="dot-c" cx="250" cy="194" r="4" fill="#60a5fa" filter="url(#glow)"/>
+  <circle class="dot-c" cx="301" cy="270" r="4" fill="#60a5fa" filter="url(#glow)"/>
+  <circle class="dot-c" cx="250" cy="352" r="4" fill="#60a5fa" filter="url(#glow)"/>
+  <circle class="dot-c" cx="199" cy="270" r="4" fill="#60a5fa" filter="url(#glow)"/>
+
+  <!-- Dots on prev polygon -->
+  <circle class="dot-p" cx="250" cy="125" r="3" fill="#6366f1" opacity="0.6"/>
+  <circle class="dot-p" cx="392" cy="270" r="3" fill="#6366f1" opacity="0.6"/>
+  <circle class="dot-p" cx="250" cy="381" r="3" fill="#6366f1" opacity="0.6"/>
+  <circle class="dot-p" cx="148" cy="270" r="3" fill="#6366f1" opacity="0.6"/>
+
+  <!-- Center dot -->
+  <circle cx="250" cy="270" r="3" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+
+  <!-- Legend -->
+  <g class="legend">
+    <rect x="142" y="478" width="10" height="3" rx="1.5" fill="#3b82f6"/>
+    <text x="156" y="484" class="label" fill="#60a5fa">Today</text>
+    <rect x="210" y="478" width="10" height="3" rx="1.5" fill="#6366f1" opacity="0.5" stroke-dasharray="3 2"/>
+    <text x="224" y="484" class="label" fill="#6366f1" opacity="0.7">Previous</text>
+  </g>
+</svg>

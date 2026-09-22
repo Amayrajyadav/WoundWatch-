@@ -33,23 +33,13 @@
 
 <br/>
 
-```
-                    RECOVERY TRAJECTORY
+<img src="assets/trajectory.svg" alt="Animated Recovery Trajectory" width="100%"/>
 
-          ●
-        ╱   
-      ╱     ●                              Healing Score ↑
-    ╱           ╱─────●  
-  ●           ╱        
-────────────────────────────────────────────
-Day 1      Day 2      Day 3     Day 4     Today
-```
-
-*The line draws itself when you load the app.*
+*The line draws itself. Every time. On every load.*
 
 <br/>
 
-[**Explore Live Demo**](#-live-demo) · [**How It Works**](#-how-it-works) · [**Quick Start**](#-quick-start) · [**The Intelligence Engine**](#-the-intelligence-engine)
+[**Explore Live Demo**](#live-demo) · [**How It Works**](#the-intelligence-engine) · [**Quick Start**](#quick-start) · [**Architecture**](#architecture)
 
 </div>
 
@@ -77,62 +67,28 @@ Most health apps store data. **WoundWatch understands it.**
 ## Feature Showcase
 
 ### Recovery Trajectory
-```
-                         RECOVERY TRAJECTORY              n=5
 
-      100 ┤
-          │
-       75 ┤                                    ●────────●
-          │                          ●────────╯
-       50 ┤                ●────────╯
-          │      ●────────╯
-       25 ┤────●╯
-          │
-        0 ┤
-          └──────────────────────────────────────────────
-           Day 1    Day 2    Day 3    Day 4    Day 5   Today
-```
+<img src="assets/trajectory.svg" alt="Animated Recovery Trajectory" width="100%"/>
 
-A **live-animated SVG** trajectory that draws itself on page load, showing your aggregate healing score across all tracked signals. Higher = healing.
+A **live-animated SVG** trajectory that draws itself on page load, showing your aggregate healing score across all tracked signals. Higher = healing. The dots pop in sequentially, one per historical observation.
 
 ---
 
 ### Recovery Fingerprint
-```
-                        PAIN ●
-                           /|\
-                          / | \
-                         /  |  \
-              SYMPTOMS ●────┼────● VISUAL SIGNAL
-                         \  |  /
-                          \ | /
-                           \|/
-                        AREA ●
 
-          ──── Latest Scan    - - - Previous Baseline
-```
+<div align="center">
+<img src="assets/radar.svg" alt="Animated Radar Chart" width="380"/>
+</div>
 
-A **4-axis radar chart** showing your current observation vs. your previous baseline across all four normalized dimensions. Every axis is mathematically scaled 0–100.
+A **4-axis radar chart** that draws itself with a path animation. Shows current observation vs. previous baseline across all four normalized dimensions. Every axis is mathematically scaled 0–100. The outer dashed ring rotates indefinitely.
 
 ---
 
-### What WoundWatch Sees
-```
-  ┌─────────────────────────────────────┐
-  │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
-  │  ░░░░░▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░  │
-  │  ░░░▒▒▓▓▓▓▒▒░░░░░░░░░░░░░░░░░░░░░  │
-  │  ░░▒▓▓▓▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░  │ ← Visual signal
-  │  ░░▒▓▓▓▓▓▓▓▓▒░░░░░░░░░░░░░░░░░░░░  │   heat map
-  │  ░░░▒▒▓▓▓▓▒▒░░░░░░░░░░░░░░░░░░░░░  │
-  │  ░░░░░▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░  │
-  └─────────────────────────────────────┘
-  
-  Low signal ──────────────────── High signal
-         ░             ▒             ▓
-```
+### Analysis Pipeline
 
-A **canvas-based computer vision overlay** that extracts and maps the wound's color signal distribution, making the "AI" tangible and explainable.
+<img src="assets/scanner.svg" alt="Animated Analysis Pipeline" width="100%"/>
+
+No fake AI progress bars. Each step reflects what's **actually executing** in the `PrototypeObservationEngine`. The checklist runs sequentially, and the result card reveals once all steps are complete.
 
 ---
 

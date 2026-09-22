@@ -1,0 +1,157 @@
+<svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" width="900" height="200">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap');
+      .label { font-family: 'Inter', monospace; font-size: 11px; fill: #475569; letter-spacing: 0.1em; }
+      .score { font-family: 'Inter', monospace; font-size: 11px; fill: #64748b; }
+      .today { font-family: 'Inter', monospace; font-size: 11px; fill: #60a5fa; font-weight: bold; }
+      .title { font-family: 'Inter', monospace; font-size: 12px; fill: #94a3b8; letter-spacing: 0.15em; }
+      .n-label { font-family: 'Inter', monospace; font-size: 11px; fill: #334155; }
+
+      .traj-path {
+        stroke-dasharray: 1200;
+        stroke-dashoffset: 1200;
+        animation: draw 3s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;
+      }
+      .traj-glow {
+        stroke-dasharray: 1200;
+        stroke-dashoffset: 1200;
+        animation: draw 3s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;
+      }
+      @keyframes draw {
+        to { stroke-dashoffset: 0; }
+      }
+
+      .dot { opacity: 0; animation: pop 0.3s ease forwards; }
+      .d1 { animation-delay: 0.9s; }
+      .d2 { animation-delay: 1.5s; }
+      .d3 { animation-delay: 2.0s; }
+      .d4 { animation-delay: 2.5s; }
+      .d5 { animation-delay: 3.0s; }
+      @keyframes pop {
+        0%   { opacity: 0; r: 0; }
+        70%  { opacity: 1; r: 7; }
+        100% { opacity: 1; r: 4; }
+      }
+
+      .dot-ring { opacity: 0; animation: ring-pop 0.4s ease forwards; }
+      .dr1 { animation-delay: 0.9s; }
+      .dr2 { animation-delay: 1.5s; }
+      .dr3 { animation-delay: 2.0s; }
+      .dr4 { animation-delay: 2.5s; }
+      .dr5 { animation-delay: 3.0s; }
+      @keyframes ring-pop {
+        0%   { opacity: 0; }
+        100% { opacity: 0.3; }
+      }
+
+      .today-ring {
+        opacity: 0;
+        animation: ring-pop 0.4s ease 3.0s forwards;
+      }
+      .today-pulse {
+        opacity: 0;
+        animation: pulse-ring 2s ease-in-out 3.4s infinite;
+      }
+      @keyframes pulse-ring {
+        0%   { r: 6; opacity: 0.5; }
+        100% { r: 18; opacity: 0; }
+      }
+
+      .fade-in { opacity: 0; animation: fadein 0.5s ease forwards; }
+      .f1 { animation-delay: 3.2s; }
+      .f2 { animation-delay: 3.4s; }
+      .f3 { animation-delay: 3.5s; }
+      @keyframes fadein { to { opacity: 1; } }
+
+      .area-fill {
+        opacity: 0;
+        animation: fill-appear 1.5s ease 2.5s forwards;
+      }
+      @keyframes fill-appear { to { opacity: 1; } }
+    </style>
+
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-strong">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Gradient for area fill -->
+    <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Gradient for the line -->
+    <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="60%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="200" rx="16" fill="#020617"/>
+  <rect width="900" height="200" rx="16" fill="url(#area-grad)" opacity="0.3"/>
+
+  <!-- Grid lines -->
+  <line x1="80" y1="40"  x2="860" y2="40"  stroke="#0f172a" stroke-width="1"/>
+  <line x1="80" y1="80"  x2="860" y2="80"  stroke="#0f172a" stroke-width="1"/>
+  <line x1="80" y1="120" x2="860" y2="120" stroke="#0f172a" stroke-width="1"/>
+  <line x1="80" y1="160" x2="860" y2="160" stroke="#0f172a" stroke-width="1"/>
+
+  <!-- Y-axis labels -->
+  <text x="68" y="44"  text-anchor="end" class="score">100</text>
+  <text x="68" y="84"  text-anchor="end" class="score">75</text>
+  <text x="68" y="124" text-anchor="end" class="score">50</text>
+  <text x="68" y="164" text-anchor="end" class="score">25</text>
+
+  <!-- Title -->
+  <text x="80" y="20" class="title">RECOVERY TRAJECTORY</text>
+  <text x="820" y="20" class="n-label">n=5</text>
+
+  <!-- Area fill under curve -->
+  <path class="area-fill" d="M140,155 C220,145 300,125 390,100 C480,75 570,55 660,42 L660,160 L140,160 Z"
+    fill="url(#area-grad)"/>
+
+  <!-- Glow path (wider, blurred) -->
+  <path class="traj-glow" d="M140,155 C220,145 300,125 390,100 C480,75 570,55 660,42"
+    fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.25" filter="url(#glow-strong)"/>
+
+  <!-- Main trajectory path -->
+  <path class="traj-path" d="M140,155 C220,145 300,125 390,100 C480,75 570,55 660,42"
+    fill="none" stroke="url(#line-grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Dot rings (glow halos) -->
+  <circle class="dot-ring dr1" cx="140" cy="155" r="10" fill="#6366f1" opacity="0.3"/>
+  <circle class="dot-ring dr2" cx="250" cy="138" r="10" fill="#4f72e3" opacity="0.3"/>
+  <circle class="dot-ring dr3" cx="390" cy="100" r="10" fill="#3b82f6" opacity="0.3"/>
+  <circle class="dot-ring dr4" cx="530" cy="65"  r="10" fill="#2fa8e8" opacity="0.3"/>
+  <circle class="today-ring"   cx="660" cy="42"  r="10" fill="#60a5fa" opacity="0.3"/>
+
+  <!-- Pulse ring on today's dot -->
+  <circle class="today-pulse"  cx="660" cy="42"  r="6" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+
+  <!-- Data dots -->
+  <circle class="dot d1" cx="140" cy="155" r="4" fill="#6366f1" filter="url(#glow)"/>
+  <circle class="dot d2" cx="250" cy="138" r="4" fill="#4f72e3" filter="url(#glow)"/>
+  <circle class="dot d3" cx="390" cy="100" r="4" fill="#3b82f6" filter="url(#glow)"/>
+  <circle class="dot d4" cx="530" cy="65"  r="4" fill="#2fa8e8" filter="url(#glow)"/>
+  <circle class="dot d5" cx="660" cy="42"  r="5" fill="#60a5fa" filter="url(#glow-strong)"/>
+
+  <!-- X-axis day labels -->
+  <text x="140" y="185" text-anchor="middle" class="label fade-in f1">Day 1</text>
+  <text x="250" y="185" text-anchor="middle" class="label fade-in f1">Day 2</text>
+  <text x="390" y="185" text-anchor="middle" class="label fade-in f2">Day 3</text>
+  <text x="530" y="185" text-anchor="middle" class="label fade-in f2">Day 4</text>
+  <text x="660" y="185" text-anchor="middle" class="today fade-in f3">Today</text>
+
+  <!-- Healing score label that fades in -->
+  <text x="690" y="38" class="score fade-in f3">Healing Score</text>
+  <text x="690" y="52" class="today fade-in f3">↑ Improving</text>
+</svg>
