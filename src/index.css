@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --text-50: #e5eeff;
+    --text-100: #ccdeff;
+    --text-200: #99bdff;
+    --text-300: #669cff;
+    --text-400: #337aff;
+    --text-500: #0059ff;
+    --text-600: #0047cc;
+    --text-700: #003699;
+    --text-800: #002466;
+    --text-900: #001233;
+    --text-950: #00091a;
+
+    --background-50: #e5eeff;
+    --background-100: #ccdeff;
+    --background-200: #99bdff;
+    --background-300: #669cff;
+    --background-400: #337aff;
+    --background-500: #0059ff;
+    --background-600: #0047cc;
+    --background-700: #003699;
+    --background-800: #002466;
+    --background-900: #001233;
+    --background-950: #00091a;
+
+    --primary-50: #e6effe;
+    --primary-100: #cddffe;
+    --primary-200: #9bbffd;
+    --primary-300: #699ffc;
+    --primary-400: #377ffb;
+    --primary-500: #055ffa;
+    --primary-600: #044cc8;
+    --primary-700: #033996;
+    --primary-800: #022664;
+    --primary-900: #011332;
+    --primary-950: #010919;
+  }
+
+  .dark {
+    --text-50: #00091a;
+    --text-100: #001233;
+    --text-200: #002466;
+    --text-300: #003699;
+    --text-400: #0047cc;
+    --text-500: #0059ff;
+    --text-600: #337aff;
+    --text-700: #669cff;
+    --text-800: #99bdff;
+    --text-900: #ccdeff;
+    --text-950: #e5eeff;
+
+    --background-50: #00091a;
+    --background-100: #001233;
+    --background-200: #002466;
+    --background-300: #003699;
+    --background-400: #0047cc;
+    --background-500: #0059ff;
+    --background-600: #337aff;
+    --background-700: #669cff;
+    --background-800: #99bdff;
+    --background-900: #ccdeff;
+    --background-950: #e5eeff;
+  }
+}
+
+body {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(5, 95, 250, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(5, 95, 250, 0.4);
+}
