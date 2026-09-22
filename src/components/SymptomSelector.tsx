@@ -229,7 +229,7 @@ export const SymptomSelector: React.FC<SymptomSelectorProps> = ({
                 onClick={() => toggleSymptom(symptom)}
                 className={`px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center space-x-2 transition-all border ${
                   isSelected
-                    ? 'bg-brand-500 text-white border-brand-600 shadow-subtle'
+                    ? 'bg-brand-500 text-white border-brand-600'
                     : 'bg-surface-soft dark:bg-surface-dark border-surface-border dark:border-surface-darkBorder text-slate-700 dark:text-slate-300 hover:border-brand-300'
                 }`}
               >
@@ -300,7 +300,7 @@ export const SymptomSelector: React.FC<SymptomSelectorProps> = ({
         <button
           type="button"
           onClick={onNextStep}
-          className="flex-1 py-3 px-4 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm shadow-subtle hover:shadow-glow transition-all"
+          className="flex-1 py-3 px-4 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all"
         >
           Analyze Recovery
         </button>

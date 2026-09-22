@@ -2,78 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @layer base {
   :root {
-    --text-50: #e5eeff;
-    --text-100: #ccdeff;
-    --text-200: #99bdff;
-    --text-300: #669cff;
-    --text-400: #337aff;
-    --text-500: #0059ff;
-    --text-600: #0047cc;
-    --text-700: #003699;
-    --text-800: #002466;
-    --text-900: #001233;
-    --text-950: #00091a;
+    /* New color palette — dark teal blue + amber accent */
+    --brand-50: #eef6fc;
+    --brand-100: #d6ebf8;
+    --brand-200: #b1d8f1;
+    --brand-300: #85c8f2;
+    --brand-400: #339ce4;
+    --brand-500: #00598e;
+    --brand-600: #004875;
+    --brand-700: #00395c;
+    --brand-800: #002942;
+    --brand-900: #001a2a;
+    --brand-950: #000d17;
 
-    --background-50: #e5eeff;
-    --background-100: #ccdeff;
-    --background-200: #99bdff;
-    --background-300: #669cff;
-    --background-400: #337aff;
-    --background-500: #0059ff;
-    --background-600: #0047cc;
-    --background-700: #003699;
-    --background-800: #002466;
-    --background-900: #001233;
-    --background-950: #00091a;
-
-    --primary-50: #e6effe;
-    --primary-100: #cddffe;
-    --primary-200: #9bbffd;
-    --primary-300: #699ffc;
-    --primary-400: #377ffb;
-    --primary-500: #055ffa;
-    --primary-600: #044cc8;
-    --primary-700: #033996;
-    --primary-800: #022664;
-    --primary-900: #011332;
-    --primary-950: #010919;
+    --accent-300: #f0e964;
+    --accent-400: #fcd54d;
+    --accent-500: #fbc939;
   }
 
-  .dark {
-    --text-50: #00091a;
-    --text-100: #001233;
-    --text-200: #002466;
-    --text-300: #003699;
-    --text-400: #0047cc;
-    --text-500: #0059ff;
-    --text-600: #337aff;
-    --text-700: #669cff;
-    --text-800: #99bdff;
-    --text-900: #ccdeff;
-    --text-950: #e5eeff;
+  html, body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
 
-    --background-50: #00091a;
-    --background-100: #001233;
-    --background-200: #002466;
-    --background-300: #003699;
-    --background-400: #0047cc;
-    --background-500: #0059ff;
-    --background-600: #337aff;
-    --background-700: #669cff;
-    --background-800: #99bdff;
-    --background-900: #ccdeff;
-    --background-950: #e5eeff;
+  body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-body {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Custom subtle scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -84,10 +45,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(5, 95, 250, 0.2);
+  background: rgba(0, 89, 142, 0.2);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(5, 95, 250, 0.4);
+  background: rgba(0, 89, 142, 0.4);
 }

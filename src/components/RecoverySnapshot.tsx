@@ -39,31 +39,39 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
     );
   }
 
-  const { trend, visualSignal, explanation, safetyPrompt } = result;
+  const { trend, visualSignal, explanation, safetyPrompt, reasoning, safetyLevel } = result;
 
   const getTrendBadge = () => {
     switch (trend) {
-      case 'Improving':
+      case 'improving':
         return (
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-bold text-xs border border-emerald-200 dark:border-emerald-800">
             <TrendingDown className="w-4 h-4" />
             <span>Improving</span>
           </div>
         );
-      case 'Needs attention':
+      case 'seek-care':
         return (
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-bold text-xs border border-amber-200 dark:border-amber-800">
-            <ShieldAlert className="w-4 h-4 text-amber-500" />
-            <span>Needs attention</span>
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-bold text-xs border border-rose-200 dark:border-rose-800">
+            <ShieldAlert className="w-4 h-4 text-rose-500" />
+            <span>Seek Care</span>
           </div>
         );
-      case 'Baseline':
+      case 'monitor':
+        return (
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-bold text-xs border border-amber-200 dark:border-amber-800">
+            <Activity className="w-4 h-4 text-amber-500" />
+            <span>Monitor</span>
+          </div>
+        );
+      case 'baseline':
         return (
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 font-bold text-xs border border-indigo-200 dark:border-indigo-800">
             <ShieldCheck className="w-4 h-4 text-indigo-500" />
             <span>Baseline</span>
           </div>
         );
+      case 'stable':
       default:
         return (
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 font-bold text-xs border border-brand-200 dark:border-brand-800">
@@ -101,7 +109,7 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-500 font-medium">Observable Visual Signal:</span>
               <span className="font-extrabold text-brand-600 dark:text-brand-400">
-                {visualSignal.redDominance}%
+                {visualSignal.regionRedDominance}%
               </span>
             </div>
             <div className="flex items-center justify-between text-xs">
@@ -144,14 +152,23 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
       </div>
 
       {/* 3. AI Observation & Explanation */}
-      <div className="bg-white dark:bg-surface-darkSoft p-5 rounded-3xl border border-surface-border dark:border-surface-darkBorder shadow-sm space-y-2">
+      <div className="bg-white dark:bg-surface-darkSoft p-5 rounded-3xl border border-surface-border dark:border-surface-darkBorder shadow-sm space-y-3">
         <div className="flex items-center space-x-2 text-brand-600 dark:text-brand-400">
           <Sparkles className="w-4 h-4" />
           <span className="text-xs font-bold uppercase tracking-wider">
-            Prototype Observation Engine
+            Observation Reasoning
           </span>
         </div>
-        <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+        
+        {reasoning && reasoning.length > 0 && (
+          <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside">
+            {reasoning.map((reason, idx) => (
+              <li key={idx}>{reason}</li>
+            ))}
+          </ul>
+        )}
+        
+        <p className="text-xs sm:text-sm text-slate-900 dark:text-slate-200 leading-relaxed font-bold mt-2 pt-2 border-t border-slate-100 dark:border-slate-800">
           {explanation}
         </p>
       </div>
@@ -159,7 +176,7 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
       {/* 4. Safety Notice */}
       <SafetyNotice
         message={safetyPrompt}
-        variant={trend === 'Needs attention' ? 'warning' : 'info'}
+        variant={safetyLevel === 'seek-care' ? 'warning' : (safetyLevel === 'monitor' ? 'warning' : 'info')}
       />
 
       {/* Actions */}
@@ -174,7 +191,7 @@ export const RecoverySnapshot: React.FC<RecoverySnapshotProps> = ({
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onSave}
-          className="flex-1 py-3.5 px-6 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-base flex items-center justify-center space-x-2 shadow-glow transition-all"
+          className="flex-1 py-3.5 px-6 rounded-2xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-base flex items-center justify-center space-x-2 transition-all"
         >
           <Save className="w-5 h-5" />
           <span>Save Observation to Timeline</span>

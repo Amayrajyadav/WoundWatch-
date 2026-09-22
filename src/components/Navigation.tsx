@@ -26,13 +26,13 @@ export const Navigation: React.FC<NavigationProps> = ({
             className="flex items-center space-x-3 cursor-pointer select-none"
             onClick={() => onTabChange('overview')}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-brand-500 to-indigo-500 flex items-center justify-center shadow-subtle text-white font-bold text-lg">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-brand-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg">
               <Activity className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-bold text-lg text-slate-900 dark:text-white tracking-tight">
-                  WoundWatch <span className="text-brand-500 font-extrabold">AI</span>
+                  WoundWatch <span className="text-accent-500 font-extrabold">AI</span>
                 </span>
                 <span className="hidden sm:inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300 border border-brand-200 dark:border-brand-800">
                   <ShieldCheck className="w-3 h-3 mr-1 text-brand-500" />
@@ -77,13 +77,23 @@ export const Navigation: React.FC<NavigationProps> = ({
             >
               CareGuide
             </button>
+            <button
+              onClick={() => onTabChange('report')}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                activeTab === 'report'
+                  ? 'bg-brand-500 text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-brand-500'
+              }`}
+            >
+              Report
+            </button>
           </nav>
 
           {/* Header Actions */}
           <div className="flex items-center space-x-2">
             <button
               onClick={() => onTabChange('check')}
-              className="hidden sm:inline-flex items-center justify-center space-x-1.5 bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-subtle hover:shadow-glow active:scale-95"
+              className="hidden sm:inline-flex items-center justify-center space-x-1.5 bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-95"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Start Check</span>

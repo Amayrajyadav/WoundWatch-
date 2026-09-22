@@ -1,18 +1,21 @@
 import React from 'react';
 import { RecoveryCheck } from '@/types';
-import { PlusCircle, Activity, History, ArrowRight, ShieldCheck, Camera, Volume2, Calendar, Sparkles, BookOpen, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { PlusCircle, Activity, History, ArrowRight, ShieldCheck, Camera, Volume2, Calendar, BookOpen, Clock } from 'lucide-react';
 
 interface HomeProps {
   checks: RecoveryCheck[];
+  isDemoMode: boolean;
   onStartCheck: () => void;
+  onLoadDemo: () => void;
   onNavigateTimeline: () => void;
   onNavigateCareGuide: () => void;
 }
 
 export const Home: React.FC<HomeProps> = ({
   checks,
+  isDemoMode,
   onStartCheck,
+  onLoadDemo,
   onNavigateTimeline,
   onNavigateCareGuide,
 }) => {
@@ -21,58 +24,59 @@ export const Home: React.FC<HomeProps> = ({
 
   return (
     <div className="space-y-6 pb-24 md:pb-8">
-      {/* Hero Banner Card */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 via-brand-950 to-surface-dark p-6 sm:p-8 text-white shadow-xl border border-brand-800/40">
-        {/* Background glow decoration */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-brand-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-xl space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-400/30 text-xs font-semibold backdrop-blur-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-brand-400" />
-            <span>Observation • Not diagnosis</span>
+      {/* Hero Banner */}
+      <div className="rounded-2xl bg-brand-900 p-6 sm:p-8 text-white border border-brand-800">
+        <div className="max-w-xl space-y-5">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-brand-800 text-brand-300 border border-brand-700 text-xs font-semibold">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Observation — not diagnosis</span>
           </div>
 
           <div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-              WoundWatch <span className="text-brand-400">AI</span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              WoundWatch <span className="text-accent-400">AI</span>
             </h1>
-            <p className="text-base sm:text-lg text-brand-100/90 font-medium mt-1">
-              "Your recovery, tracked over time."
+            <p className="text-sm text-brand-300 font-medium mt-1">
+              Your recovery, tracked over time.
             </p>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md">
-            Track how a minor wound changes over time using your phone camera, symptoms, and voice — turning observations into a longitudinal recovery timeline.
+          <p className="text-xs sm:text-sm text-brand-200/80 leading-relaxed max-w-md">
+            Track how a wound changes day-to-day using your camera and symptom reports — turning isolated snapshots into an explainable recovery timeline.
           </p>
 
-          {/* 3-Step Core Workflow Bar */}
-          <div className="pt-1 pb-1 grid grid-cols-3 gap-1.5 sm:gap-2 text-center text-[10px] sm:text-xs font-semibold text-brand-200">
-            <div className="bg-brand-950/60 p-2 rounded-xl border border-brand-800/50 flex flex-col items-center">
-              <Camera className="w-4 h-4 mb-1 text-brand-400" />
-              <span>1. Camera</span>
+          {/* 3-Step bar */}
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-semibold text-brand-300">
+            <div className="bg-brand-800/60 py-2 px-1 rounded-lg border border-brand-700 flex flex-col items-center gap-1">
+              <Camera className="w-4 h-4" />
+              <span>📸 Photo</span>
             </div>
-            <div className="bg-brand-950/60 p-2 rounded-xl border border-brand-800/50 flex flex-col items-center">
-              <Volume2 className="w-4 h-4 mb-1 text-brand-400" />
-              <span>2. Context</span>
+            <div className="bg-brand-800/60 py-2 px-1 rounded-lg border border-brand-700 flex flex-col items-center gap-1">
+              <Volume2 className="w-4 h-4" />
+              <span>📝 Context</span>
             </div>
-            <div className="bg-brand-950/60 p-2 rounded-xl border border-brand-800/50 flex flex-col items-center">
-              <History className="w-4 h-4 mb-1 text-brand-400" />
-              <span>3. Timeline</span>
+            <div className="bg-brand-800/60 py-2 px-1 rounded-lg border border-brand-700 flex flex-col items-center gap-1">
+              <History className="w-4 h-4" />
+              <span>📈 Timeline</span>
             </div>
           </div>
 
-          {/* Primary CTA Button */}
-          <div className="pt-2">
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              whileHover={{ scale: 1.01 }}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
               onClick={onStartCheck}
-              className="w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-white font-extrabold px-8 py-4 rounded-2xl shadow-glow flex items-center justify-center space-x-2 transition-all text-base tracking-wide"
+              className="bg-accent-400 hover:bg-accent-300 text-brand-900 font-extrabold px-7 py-3 rounded-xl flex items-center justify-center space-x-2 transition-colors text-sm"
             >
-              <PlusCircle className="w-5 h-5" />
+              <PlusCircle className="w-4 h-4" />
               <span>Start Recovery Check</span>
-            </motion.button>
+            </button>
+            {!isDemoMode && (
+              <button
+                onClick={onLoadDemo}
+                className="bg-brand-800 hover:bg-brand-700 text-brand-200 font-bold px-7 py-3 rounded-xl flex items-center justify-center space-x-2 transition-colors text-sm border border-brand-700"
+              >
+                <span>▶ Try 5-Day Demo</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -105,7 +109,7 @@ export const Home: React.FC<HomeProps> = ({
             Visual Signal
           </span>
           <p className="text-2xl font-black text-slate-900 dark:text-white">
-            {latestCheck ? `${latestCheck.visualSignal.redDominance}%` : '—'}
+            {latestCheck ? `${latestCheck.visualSignal.regionRedDominance}%` : '—'}
           </p>
           <span className="text-[11px] text-slate-500">
             {latestCheck ? 'Observable signal' : 'Awaiting image'}
@@ -119,11 +123,13 @@ export const Home: React.FC<HomeProps> = ({
             {latestCheck ? (
               <span
                 className={`inline-flex items-center text-xs font-extrabold px-2.5 py-0.5 rounded-full ${
-                  latestCheck.trend === 'Improving'
+                  latestCheck.trend === 'improving'
                     ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                    : latestCheck.trend === 'Needs attention'
+                    : latestCheck.trend === 'seek-care'
+                    ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                    : latestCheck.trend === 'monitor'
                     ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                    : latestCheck.trend === 'Baseline'
+                    : latestCheck.trend === 'baseline'
                     ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300'
                     : 'bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-300'
                 }`}
@@ -258,6 +264,60 @@ export const Home: React.FC<HomeProps> = ({
             </div>
           </div>
           <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
+        </div>
+      </div>
+
+      {/* Privacy Center */}
+      <div className="bg-white dark:bg-surface-darkSoft p-6 sm:p-8 rounded-3xl border border-surface-border dark:border-surface-darkBorder shadow-sm space-y-5 relative overflow-hidden">
+        {/* Subtle background icon */}
+        <div className="absolute -right-8 -bottom-8 opacity-5 dark:opacity-[0.03] pointer-events-none">
+           <ShieldCheck className="w-48 h-48" />
+        </div>
+        
+        <div className="flex items-center space-x-2">
+           <ShieldCheck className="w-6 h-6 text-emerald-500" />
+           <h3 className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+              YOUR DATA STAYS HERE
+           </h3>
+        </div>
+        
+        <ul className="space-y-3 text-sm font-medium text-slate-600 dark:text-slate-300">
+           <li className="flex items-center space-x-3">
+              <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                 <span className="text-emerald-600 dark:text-emerald-400 text-[10px]">✓</span>
+              </div>
+              <span>Photos processed completely on this device</span>
+           </li>
+           <li className="flex items-center space-x-3">
+              <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                 <span className="text-emerald-600 dark:text-emerald-400 text-[10px]">✓</span>
+              </div>
+              <span>Observations stored locally in your browser</span>
+           </li>
+           <li className="flex items-center space-x-3">
+              <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                 <span className="text-emerald-600 dark:text-emerald-400 text-[10px]">✓</span>
+              </div>
+              <span>No wound images are ever uploaded</span>
+           </li>
+           <li className="flex items-center space-x-3">
+              <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                 <span className="text-emerald-600 dark:text-emerald-400 text-[10px]">✓</span>
+              </div>
+              <span>No external AI API required</span>
+           </li>
+           <li className="flex items-center space-x-3">
+              <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
+                 <span className="text-emerald-600 dark:text-emerald-400 text-[10px]">✓</span>
+              </div>
+              <span>Works without an internet connection</span>
+           </li>
+        </ul>
+
+        <div className="pt-2">
+           <button className="text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center space-x-1 border-b border-dashed border-slate-300 dark:border-slate-700 pb-0.5">
+              <span>Privacy Details</span>
+           </button>
         </div>
       </div>
     </div>

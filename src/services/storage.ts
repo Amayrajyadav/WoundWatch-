@@ -11,7 +11,26 @@ export function getSavedChecks(): RecoveryCheck[] {
       return [];
     }
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const checks = Array.isArray(parsed) ? parsed : [];
+    
+    // Migrate legacy checks
+    return checks.map((c: any) => ({
+      ...c,
+      safetyLevel: c.safetyLevel || 'normal',
+      trend: c.trend ? c.trend.toLowerCase() : 'stable',
+      comparison: c.comparison || {
+        comparisonConfidence: 'high',
+        previousPain: null,
+        currentPain: c.context?.pain || 0,
+        painDelta: null,
+        previousVisualSignal: null,
+        currentVisualSignal: c.visualSignal?.redDominance || 0,
+        visualSignalDelta: null,
+        baselinePain: null,
+        baselineVisualSignal: null,
+      },
+      reasoning: c.reasoning || [],
+    }));
   } catch (err) {
     console.error('Failed to read from localStorage:', err);
     return [];
