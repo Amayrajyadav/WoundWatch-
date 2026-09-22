@@ -44,14 +44,18 @@ export function createSpeechRecognizer(
 
   try {
     const recognition = new SpeechRecognitionClass();
-    recognition.continuous = false;
+    recognition.continuous = true;  // Keep mic open until user explicitly stops
     recognition.interimResults = true;
     recognition.lang = 'en-US';
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
+      // Only accumulate final (not interim) segments to prevent duplicated text
+      // when continuous mode delivers multiple result chunks.
       let finalTranscript = '';
       for (let i = 0; i < event.results.length; i++) {
-        finalTranscript += event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        }
       }
       if (finalTranscript.trim()) {
         onResult(finalTranscript);
