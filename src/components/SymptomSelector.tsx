@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SymptomContext } from '@/types';
 import { Mic, MicOff, Check, Activity, Edit3, Volume2 } from 'lucide-react';
 import { createSpeechRecognizer, isSpeechRecognitionSupported } from '@/services/voice';
@@ -37,7 +37,29 @@ export const SymptomSelector: React.FC<SymptomSelectorProps> = ({
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [speechError, setSpeechError] = useState<string | null>(null);
 
+  // Persistent ref for active SpeechRecognition instance
+  const recognizerRef = useRef<{ start: () => void; stop: () => void } | null>(null);
+  // Baseline draft note stored when dictation starts to preserve & append text
+  const baseNoteRef = useRef<string>('');
+  // Context ref to ensure latest context is available without closure race conditions
+  const contextRef = useRef<SymptomContext>(context);
+  contextRef.current = context;
+
   const speechSupported = isSpeechRecognitionSupported();
+
+  // Cleanup active recognition session on unmount
+  useEffect(() => {
+    return () => {
+      if (recognizerRef.current) {
+        try {
+          recognizerRef.current.stop();
+        } catch (e) {
+          // Ignore unmount stop errors
+        }
+        recognizerRef.current = null;
+      }
+    };
+  }, []);
 
   const handlePainChange = (value: number) => {
     onChange({
@@ -71,28 +93,56 @@ export const SymptomSelector: React.FC<SymptomSelectorProps> = ({
   const toggleVoiceRecording = () => {
     setSpeechError(null);
 
+    // If currently recording, stop active instance cleanly
     if (isRecording) {
+      if (recognizerRef.current) {
+        try {
+          recognizerRef.current.stop();
+        } catch (e) {
+          // Ignore
+        }
+        recognizerRef.current = null;
+      }
       setIsRecording(false);
       return;
     }
 
+    // Capture existing text before starting dictation
+    baseNoteRef.current = contextRef.current.voiceNote || '';
+
     const recognizer = createSpeechRecognizer(
       (transcript) => {
+        const base = baseNoteRef.current ? baseNoteRef.current.trim() : '';
+        const cleanTranscript = transcript.trim();
+        let combinedText = cleanTranscript;
+
+        if (base) {
+          const endsWithPunctuation = /[.!?]$/.test(base);
+          combinedText = endsWithPunctuation
+            ? `${base} ${cleanTranscript}`
+            : `${base}. ${cleanTranscript}`;
+        }
+
         onChange({
-          ...context,
-          voiceNote: transcript,
+          ...contextRef.current,
+          voiceNote: combinedText,
         });
       },
       (errorMsg) => {
-        setSpeechError(errorMsg);
+        if (errorMsg) {
+          setSpeechError(errorMsg);
+        }
         setIsRecording(false);
+        recognizerRef.current = null;
       },
       () => {
         setIsRecording(false);
+        recognizerRef.current = null;
       }
     );
 
     if (recognizer) {
+      recognizerRef.current = recognizer;
       setIsRecording(true);
       recognizer.start();
     } else {

@@ -24,7 +24,7 @@ export function isSpeechRecognitionSupported(): boolean {
 
 export function createSpeechRecognizer(
   onResult: (transcript: string) => void,
-  onError: (error: string) => void,
+  onError: (error: string | null) => void,
   onEnd: () => void
 ): { start: () => void; stop: () => void } | null {
   if (!isSpeechRecognitionSupported()) {
@@ -53,11 +53,23 @@ export function createSpeechRecognizer(
       for (let i = 0; i < event.results.length; i++) {
         finalTranscript += event.results[i][0].transcript;
       }
-      onResult(finalTranscript);
+      if (finalTranscript.trim()) {
+        onResult(finalTranscript);
+      }
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      onError(event.error || 'Voice recognition error');
+      const err = event.error;
+      // Handle non-fatal pause events silently without surfacing technical strings
+      if (err === 'no-speech' || err === 'aborted') {
+        onError(null); // Silent handling
+      } else if (err === 'not-allowed' || err === 'service-not-allowed') {
+        onError('Microphone permission denied. Please allow microphone access in browser settings.');
+      } else if (err === 'audio-capture') {
+        onError('No microphone hardware detected.');
+      } else {
+        onError('Speech input interrupted. Please try speaking again or type your note.');
+      }
     };
 
     recognition.onend = () => {
@@ -69,7 +81,7 @@ export function createSpeechRecognizer(
         try {
           recognition.start();
         } catch (e) {
-          onError('Could not start microphone input.');
+          onError('Could not start speech input.');
         }
       },
       stop: () => {
